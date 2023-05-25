@@ -30,13 +30,6 @@ class UnitTestApplicationTests {
 	private ObjectMapper objectMapper;
 
 
-	private Utente createUtente() throws Exception {
-		Utente utente = new Utente();
-		utente.setName("Alessio");
-		utente.setSurname("Limina");
-		return utente;
-	}
-
 	@Test
 	void contextLoads() {
 		assertThat(utenteController).isNotNull();
@@ -55,14 +48,14 @@ class UnitTestApplicationTests {
 
 	@Test
 	public void create() throws Exception {
-		Utente utente = createUtente();
+		Utente utente = new Utente(1L, "Alessio", "Limina");
 		String utenteJSON = objectMapper.writeValueAsString(utente);
 		this.mockMvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON).content(utenteJSON)).andDo(print()).andExpect(status().isOk());
 	}
 
 	@Test
 	public void update() throws Exception {
-		Utente utente = createUtente();
+		Utente utente = new Utente(1L, "Alessio", "Limina");
 		String utenteJson = objectMapper.writeValueAsString(utente);
 		this.mockMvc.perform(put("/users/Gianni").contentType(MediaType.APPLICATION_JSON).content(utenteJson)).andDo(print()).andExpect(status().isOk());
 	}
