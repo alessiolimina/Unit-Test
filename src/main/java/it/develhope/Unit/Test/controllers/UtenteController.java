@@ -41,9 +41,9 @@ public class UtenteController {
     }
 
 
-    @PutMapping("users/{id}")
-    public @ResponseBody Utente update(@PathVariable long id, @RequestBody Utente utente){
-        utente.setId(id);
+    @PutMapping("users/{surname}")
+    public @ResponseBody Utente updateSurname(@PathVariable String surname, @RequestBody Utente utente){
+        utente.setSurname(surname);
         return utenteRepository.save(utente);
     }
 

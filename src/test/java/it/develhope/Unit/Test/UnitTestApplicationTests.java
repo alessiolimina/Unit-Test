@@ -1,10 +1,13 @@
 package it.develhope.Unit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.develhope.Unit.Test.controllers.UtenteController;
+import it.develhope.Unit.Test.entities.Utente;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +25,17 @@ class UnitTestApplicationTests {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Autowired
+	private ObjectMapper objectMapper;
+
+
+	private Utente createUtente() throws Exception {
+		Utente utente = new Utente();
+		utente.setName("Alessio");
+		utente.setSurname("Limina");
+		return utente;
+	}
 
 	@Test
 	void contextLoads() {
@@ -41,12 +55,16 @@ class UnitTestApplicationTests {
 
 	@Test
 	public void create() throws Exception {
-		this.mockMvc.perform(post("/users")).andDo(print()).andExpect(status().isOk());
+		Utente utente = createUtente();
+		String utenteJSON = objectMapper.writeValueAsString(utente);
+		this.mockMvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON).content(utenteJSON)).andDo(print()).andExpect(status().isOk());
 	}
 
 	@Test
 	public void update() throws Exception {
-		this.mockMvc.perform(put("/users/1")).andDo(print()).andExpect(status().isOk());
+		Utente utente = createUtente();
+		String utenteJson = objectMapper.writeValueAsString(utente);
+		this.mockMvc.perform(put("/users/Gianni").contentType(MediaType.APPLICATION_JSON).content(utenteJson)).andDo(print()).andExpect(status().isOk());
 	}
 
 	@Test
